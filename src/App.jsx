@@ -1,16 +1,25 @@
+import { useState } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import Home from './pages/Home';
+import Dashboard from './pages/Dashboard';
 import LogAShift from './pages/LogAShift';
+import Navbar from './Components/NavBar';
+import Drawer from './Components/Drawer';
+
 
 function App() {
+  const [drawerOpen, setDrawerOpen] = useState(false);
 
   return (
-      <BrowserRouter>
+    <BrowserRouter>
+      <Navbar onMenu={() => setDrawerOpen(true)} />
+      <Drawer open={drawerOpen} onClose={() => setDrawerOpen(false)} />
+      <main style={{ paddingTop: 64 }} >
         <Routes>
-          <Route path="/" element={<Home />} />    
-          <Route path="/LogAShift" element={<LogAShift/>} />      
+          <Route path="/" element={<Dashboard />} />
+          <Route path="/LogAShift" element={<LogAShift />} />
         </Routes>
-      </BrowserRouter >
+      </main>
+    </BrowserRouter >
   )
 }
 

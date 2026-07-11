@@ -1,10 +1,9 @@
 
 
-function Header({h, p}) { 
+function Header({children}) { 
     return( 
         <header> 
-            <h1> {h} </h1>
-            <p> {p} </p>
+            <h1>{children} </h1>
         </header>    
     )
 }

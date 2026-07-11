@@ -10,4 +10,4 @@ export default function Spacer({ size, horizontal = false}) {
                 flexShrink: 0, 
         }}/>
     )
-}
+} 

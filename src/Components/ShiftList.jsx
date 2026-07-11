@@ -31,5 +31,5 @@ export default function ShiftList({ data = [] }) {
 }
 
 const th = { textAlign: 'left', padding: '8px', borderBottom: '1px solid #ddd' };
-const cell = { padding: '8px', borderBottom: '1px solid #f0f0f0' };
+const cell = { textAlign: 'left', padding: '8px', borderBottom: '1px solid #f0f0f0' };
 const row = { background: '#fff' };

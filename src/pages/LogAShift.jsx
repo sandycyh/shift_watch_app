@@ -1,10 +1,12 @@
-import Header from "../Components/Header";
-
+import { button } from 'react';
 
 export default function LogAShift() {
     return (
-        <div>
-            <Header h="Log A Shift" /> 
-        </div>
+        <header>
+            <div> 
+                <h1>Log a shift</h1>
+                
+            </div>
+        </header>
     )
 }

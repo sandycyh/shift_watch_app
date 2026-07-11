@@ -1,9 +1,9 @@
 import React from "react";
-import ShiftList from "../Components/ShiftList";
-import Header from '../Components/Header.jsx';
-import Footer from '../Components/Footer.jsx';
+import ShiftList from "../Components/ShiftList.jsx";
 import Button from '../Components/Button.jsx';
 import Spacer from '../Components/Spacer.jsx';
+import Calendar from "../Components/Calendar/Calendar.jsx";
+import Footer from "../Components/Footer.jsx";
 
 import shiftWatchLogo from '../assets/icon.png';
 
@@ -13,7 +13,7 @@ const sampleData = [
     { shiftID: 'S003', date: '2026-07-09', shiftType: 'ND', planned: 5, actual: 4 },
 ];
 
-export default function Home() {
+export default function Dashboard() {
     return (
         <>
             <section id="center">
@@ -21,10 +21,14 @@ export default function Home() {
                     <img src={shiftWatchLogo} className="base" width="270" height="279" />
                 </div>
                 <div>
-                    <Header h="Shift Watch" p="Track Shift - Collect Edivence - Drive Change" />
+                    <header>Shift Watch</header>
+                    <p>Track Shift - Collect Edivence - Drive Change</p>
                     <Spacer size="40px" />
                     <Button text="Log a shift" to="/LogAShift" />
                     <Spacer size="30px" />
+                </div>
+                <div>
+                    <Calendar />
                 </div>
             </section>
             <div style={{ padding: 16 }}>

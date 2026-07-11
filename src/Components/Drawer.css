@@ -1,0 +1,51 @@
+.drawer-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0);
+  pointer-events: none;
+  transition: background 0.2s ease;
+  z-index: 15;
+}
+
+.drawer-backdrop--open {
+  background: rgba(0,0,0,0.4);
+  pointer-events: auto;
+}
+
+.drawer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 260px;
+  background: #fff;
+  transform: translateX(-100%);
+  transition: transform 0.25s ease;
+  box-shadow: 2px 0 8px rgba(0,0,0,0.1);
+  z-index: 25;
+  padding: 16px;
+}
+
+.drawer--open {
+  transform: translateX(0);
+}
+
+.drawer_close {
+  background: none;
+  border: none;
+  font-size: 28px;
+  cursor: pointer;
+  margin-bottom: 24px;
+}
+
+.drawer_menu {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.drawer_menu a {
+  text-decoration: none;
+  color: #1f2937;
+  font-weight: 600;
+}
