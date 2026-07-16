@@ -1,20 +1,21 @@
-.container {
-    width: 85%;
-    margin: 20px auto;
-    height: 500px;
-    padding: 20px;
-    border: 2px solid #ccc;
-    display: flex;
-    flex-direction: column;
+.container div {
+    display: grid;
+    grid-template-areas:
+        "header header"
+        "weekday weekday"
+        "content content";
+    grid-template-columns: repeat(7, 1fr);
+    border: 1px solid black;
+    width: 80%;
 }
 
-.title {
+div.title {
     width: 200px;
     justify-content: center;
     align-items: center;
 }
 
-.header {
+div.header {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -28,22 +29,36 @@
     height: 30px;
 }
 
-.calendar {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    gap: px;
-    border: 1px solid black;    
-}
-
-.gridItem {
-    border-right: 1px solid black;
+div.weekdays {
     width: 100%;
     height: 70px;
+    background-color: rgb(32, 165, 218);
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
-.gridButton {
+
+div.calendar {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    background-color: rgb(47, 226, 101);
+
+}
+
+div.gridItem {
+    width: 100%;
+    height: 70px;
+    background-color: rgb(236, 150, 236);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+div.gridButton {
     width: 100%;
     background-color: violet;
 }
+
 .days {
     display: grid;
     grid-template-columns: repeat(7, 1fr);

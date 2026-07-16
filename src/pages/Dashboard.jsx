@@ -31,6 +31,8 @@ export default function Dashboard() {
                     <Calendar />
                 </div>
             </section>
+
+            {/*testing rendering from DB}*/}
             <div style={{ padding: 16 }}>
                 <h1> Shift Record </h1>
                 <ShiftList data={sampleData} />

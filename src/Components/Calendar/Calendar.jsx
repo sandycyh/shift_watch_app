@@ -1,9 +1,28 @@
 import React, { useState } from "react";
+import RenderWeekDays from './RenderWeekDays';
+import CalendarHeader from './CalendarHeader';
 import CalendarCSS from './Calendar.module.css';
+
+
 
 const Calendar = () => {
 
     const [currentDate, setCurrentDate] = useState(new Date());
+
+    //function to navigate to month
+    const goToCurrentMonth = () => {
+        setCurrentDate(new Date());
+    };
+
+    const goToPreviousMonth = () => {
+        const newDate = new Date(currentDate.getFullYear(), currentDate.getMonth() - 1);
+        setCurrentDate(newDate);
+    };
+
+    const goToNextMonth = () => {
+        const newDate = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1);
+        setCurrentDate(newDate);
+    };
 
     const getDaysInMonth = (date) => {
         const year = date.getFullYear();
@@ -26,61 +45,37 @@ const Calendar = () => {
         };
 
         for (let i = 0; i < firstDay; i++) {
-            days.unshift();
+            days.unshift(null)
         }
 
+        days.push(days.shift());
 
         return (
             days.map(day =>
-                <div className={CalendarCSS.gridItem}>
-                    <button className={CalendarCSS.gridButton}>{day}</button>
+                <div
+                    className={CalendarCSS.gridItem}
+                // onClick={() => openDay(day)} 
+                >
+                    <p>{day}</p>
                 </div>)
         )
     };
 
-
-    //function to navigate to month
-    const goToCurrentMonth = () => {
-        setCurrentDate(new Date());
-    };
-
-    const goToPreviousMonth = () => {
-        const newDate = new Date(currentDate.getFullYear(), currentDate.getMonth() - 1);
-        setCurrentDate(newDate);
-    };
-
-    const goToNextMonth = () => {
-        const newDate = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1);
-        setCurrentDate(newDate);
-    };
-
     return (
         <>
-            <section className={CalendarCSS.container}>
-                <div className={CalendarCSS.header}>
-                    <button
-                        className={CalendarCSS.button}
-                        onClick={goToPreviousMonth}
-                    >
-                        &#8592;</button>
-
-                    <h2 className={CalendarCSS.title}>
-                        {currentDate.toLocaleString('default', { month: 'long' })} {currentDate.getFullYear()}
-                    </h2>
-
-                    <button
-                        className={CalendarCSS.button}
-                        onClick={goToNextMonth}
-                    >
-                        &#8594; </button>
-                </div >
-
+            <div className={CalendarCSS.container}>
+                <CalendarHeader
+                    currentDate={currentDate}
+                    onCurrentMonth={goToCurrentMonth}
+                    onPreviousMonth={goToPreviousMonth}
+                    onNextMonth={goToNextMonth}
+                />
                 <div className={CalendarCSS.calendar}>
+                    {RenderWeekDays()}
                     {renderDays()}
                     <br />
-
                 </div>
-            </section>
+            </div>
         </>
     );
 }
