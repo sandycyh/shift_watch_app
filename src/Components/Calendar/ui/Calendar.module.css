@@ -1,32 +1,39 @@
-.container div {
-    display: grid;
-    grid-template-areas:
-        "header header"
-        "weekday weekday"
-        "content content";
-    grid-template-columns: repeat(7, 1fr);
-    border: 1px solid black;
-    width: 80%;
+.container {
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 12px;
 }
 
 div.title {
-    width: 200px;
-    justify-content: center;
-    align-items: center;
+    font-size: 1.3rem;
+    font-weight: 600;
+    text-align: center;
+    justify-self: center;     
+    white-space: nowrap; 
 }
 
 div.header {
-    display: flex;
-    justify-content: center;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
     align-items: center;
+    gap: 16px;
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid #e0e0e0;
     color: rgb(0, 0, 0);
+    column-gap: 16px;
 }
 
 .button {
-    margin-left: 30px;
-    margin-right: 30px;
     border-radius: 10px;
+    width: 50px;
     height: 30px;
+    cursor: pointer;
+    border: 1px solid #ccc;
+    background: white;
+    font-size: 1rem;
+    transition: all 0.2s ease;
 }
 
 div.weekdays {
@@ -36,22 +43,21 @@ div.weekdays {
     display: flex;
     justify-content: center;
     align-items: center;
+    border-right: 1px solid black;
 }
 
 div.calendar {
     display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    background-color: rgb(47, 226, 101);
-
+    grid-template-columns: repeat(7, minmax(0, 1fr));
 }
 
 div.gridItem {
-    width: 100%;
-    height: 70px;
-    background-color: rgb(236, 150, 236);
+    min-height: 64px;
     display: flex;
     justify-content: center;
     align-items: center;
+    background-color: #ececec;
+    border: 1px solid #ddd;
 }
 
 div.gridButton {

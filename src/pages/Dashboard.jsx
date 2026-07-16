@@ -2,7 +2,7 @@ import React from "react";
 import ShiftList from "../Components/ShiftList.jsx";
 import Button from '../Components/Button.jsx';
 import Spacer from '../Components/Spacer.jsx';
-import Calendar from "../Components/Calendar/Calendar.jsx";
+import Calendar from "../Components/Calendar/ui/Calendar.jsx";
 import Footer from "../Components/Footer.jsx";
 
 import shiftWatchLogo from '../assets/icon.png';

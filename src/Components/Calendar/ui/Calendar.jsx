@@ -2,12 +2,13 @@ import React, { useState } from "react";
 import RenderWeekDays from './RenderWeekDays';
 import CalendarHeader from './CalendarHeader';
 import CalendarCSS from './Calendar.module.css';
-
+import RenderDays from "./RenderDays";
 
 
 const Calendar = () => {
 
     const [currentDate, setCurrentDate] = useState(new Date());
+
 
     //function to navigate to month
     const goToCurrentMonth = () => {
@@ -34,32 +35,8 @@ const Calendar = () => {
         return new Date(date.getFullYear(), date.getMonth(), 1).getDay();
     };
 
-    const renderDays = () => {
-        const daysInMonth = getDaysInMonth(currentDate);
-        const firstDay = getFirstDayOfMonth(currentDate);
-
-        let days = [];
-
-        for (let i = 1; i <= daysInMonth; i++) {
-            days.push(i)
-        };
-
-        for (let i = 0; i < firstDay; i++) {
-            days.unshift(null)
-        }
-
-        days.push(days.shift());
-
-        return (
-            days.map(day =>
-                <div
-                    className={CalendarCSS.gridItem}
-                // onClick={() => openDay(day)} 
-                >
-                    <p>{day}</p>
-                </div>)
-        )
-    };
+    const daysInMonth = getDaysInMonth(currentDate);
+    const firstDay = getFirstDayOfMonth(currentDate);
 
     return (
         <>
@@ -72,7 +49,7 @@ const Calendar = () => {
                 />
                 <div className={CalendarCSS.calendar}>
                     {RenderWeekDays()}
-                    {renderDays()}
+                    <RenderDays daysInMonth={daysInMonth} firstDay={firstDay} />
                     <br />
                 </div>
             </div>
