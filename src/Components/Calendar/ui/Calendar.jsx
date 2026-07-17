@@ -3,12 +3,14 @@ import RenderWeekDays from './RenderWeekDays';
 import CalendarHeader from './CalendarHeader';
 import CalendarCSS from './Calendar.module.css';
 import RenderDays from "./RenderDays";
-
+import DayModal from "../DayModal";
+//import childmodal and polish up the modal to get it working
 
 const Calendar = () => {
 
     const [currentDate, setCurrentDate] = useState(new Date());
-
+    const [open, setOpen] = useState(false);
+    const [selectedDay, setSelectedDay] = useState(null);
 
     //function to navigate to month
     const goToCurrentMonth = () => {
@@ -38,6 +40,16 @@ const Calendar = () => {
     const daysInMonth = getDaysInMonth(currentDate);
     const firstDay = getFirstDayOfMonth(currentDate);
 
+    const handleOpen = (day) => {
+        console.log(day)
+        setSelectedDay(day);
+        setOpen(true);
+    };
+
+    const handleClose = (day) => {
+        setOpen(false);
+    }
+
     return (
         <>
             <div className={CalendarCSS.container}>
@@ -49,8 +61,18 @@ const Calendar = () => {
                 />
                 <div className={CalendarCSS.calendar}>
                     {RenderWeekDays()}
-                    <RenderDays daysInMonth={daysInMonth} firstDay={firstDay} />
+                    <RenderDays 
+                        daysInMonth={daysInMonth} 
+                        firstDay={firstDay}
+                        handleOpen={handleOpen} />
                     <br />
+                </div>
+                <div>
+                    <DayModal
+                        open={open}
+                        onClose={handleClose}
+                        day={selectedDay}
+                    />
                 </div>
             </div>
         </>

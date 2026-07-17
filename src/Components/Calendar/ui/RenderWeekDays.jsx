@@ -6,8 +6,8 @@ const RenderWeekDays = () => {
 
         weekdays.push(weekdays.shift());
         return (
-            weekdays.map(weekday =>
-                <div className={CalendarCSS.weekdays}>
+            weekdays.map((weekday, index) =>
+                <div key={index} className={CalendarCSS.weekdays}>
                     <p>{weekday}</p>
                 </div>
             )
