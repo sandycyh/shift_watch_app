@@ -4,15 +4,18 @@ import CalendarHeader from './CalendarHeader';
 import CalendarCSS from './Calendar.module.css';
 import RenderDays from "./RenderDays";
 import DayModal from "../DayModal";
-//import childmodal and polish up the modal to get it working
 
 const Calendar = () => {
-
+    const sampleData = [
+        { shiftID: 'S001', date: '2026-07-10', shiftType: 'AM', planned: 9, actual: 8 },
+        { shiftID: 'S002', date: '2026-07-10', shiftType: 'PM', planned: 8, actual: 8 },
+        { shiftID: 'S003', date: '2026-07-09', shiftType: 'ND', planned: 5, actual: 4 },
+    ];
+    
     const [currentDate, setCurrentDate] = useState(new Date());
     const [open, setOpen] = useState(false);
     const [selectedDay, setSelectedDay] = useState(null);
 
-    //function to navigate to month
     const goToCurrentMonth = () => {
         setCurrentDate(new Date());
     };
@@ -37,11 +40,14 @@ const Calendar = () => {
         return new Date(date.getFullYear(), date.getMonth(), 1).getDay();
     };
 
+    const getMonth = (date) => {
+        return new Date(date.getMonth());
+    }
+
     const daysInMonth = getDaysInMonth(currentDate);
     const firstDay = getFirstDayOfMonth(currentDate);
 
-    const handleOpen = (day) => {
-        console.log(day)
+    const handleOpen = (day, currentMonth) => {
         setSelectedDay(day);
         setOpen(true);
     };
@@ -64,7 +70,8 @@ const Calendar = () => {
                     <RenderDays 
                         daysInMonth={daysInMonth} 
                         firstDay={firstDay}
-                        handleOpen={handleOpen} />
+                        handleOpen={handleOpen} 
+                        />
                     <br />
                 </div>
                 <div>
@@ -72,6 +79,8 @@ const Calendar = () => {
                         open={open}
                         onClose={handleClose}
                         day={selectedDay}
+                        month={currentDate.toLocaleString('default', { month: 'long' })}
+                        year={currentDate.getFullYear()}
                     />
                 </div>
             </div>

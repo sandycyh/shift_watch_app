@@ -8,16 +8,25 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
+import Typography from '@mui/material/Typography';
 
-export default function DayModal({ open, onClose, day }) {
+
+export default function DayModal({ open, onClose, day, month, year }) {
 
   const theme = useTheme();
 
-  console.log(day)
+  /*
+                  testing rendering from DB
+                  <div style={{ padding: 16 }}>
+                      <h1> Shift Record </h1>
+                      <ShiftList data={sampleData} />
+  
+  */
+
   return (
     <React.Fragment>
       <Dialog
-        maxWidth={'sm'}
+        maxWidth={'md'}
         open={open}
         onClose={onClose}
         aria-labelledby="shiftInfoDialog"
@@ -25,11 +34,17 @@ export default function DayModal({ open, onClose, day }) {
         <DialogTitle id="shiftInfoTitle">
           {"Shift Status"}
         </DialogTitle>
+        <Typography>
+          {day} {month} {year}
+        </Typography>
+
         <DialogContent>
           <DialogContentText> AM </DialogContentText>
           <DialogContentText> PM </DialogContentText>
           <DialogContentText> ND </DialogContentText>
         </DialogContent>
+
+
         <DialogActions>
           <Button autoFocus onClick={onClose}>
             Edit
