@@ -3,7 +3,7 @@ import RenderWeekDays from './RenderWeekDays';
 import CalendarHeader from './CalendarHeader';
 import CalendarCSS from './Calendar.module.css';
 import RenderDays from "./RenderDays";
-import DayModal from "../DayModal";
+import DayModal from "../DayModal/DayModal";
 
 const Calendar = () => {
     const sampleData = [
