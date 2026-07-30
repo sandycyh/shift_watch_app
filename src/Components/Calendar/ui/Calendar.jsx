@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import RenderWeekDays from './RenderWeekDays';
 import CalendarHeader from './CalendarHeader';
 import CalendarCSS from './Calendar.module.css';
@@ -6,15 +6,13 @@ import RenderDays from "./RenderDays";
 import DayModal from "../DayModal/DayModal";
 
 const Calendar = () => {
-    const sampleData = [
-        { shiftID: 'S001', date: '2026-07-10', shiftType: 'AM', planned: 9, actual: 8 },
-        { shiftID: 'S002', date: '2026-07-10', shiftType: 'PM', planned: 8, actual: 8 },
-        { shiftID: 'S003', date: '2026-07-09', shiftType: 'ND', planned: 5, actual: 4 },
-    ];
+
     
     const [currentDate, setCurrentDate] = useState(new Date());
     const [open, setOpen] = useState(false);
     const [selectedDay, setSelectedDay] = useState(null);
+    const [selectedDate, setSelectedDate] = useState(currentDate);
+
 
     const goToCurrentMonth = () => {
         setCurrentDate(new Date());
@@ -44,13 +42,24 @@ const Calendar = () => {
         return new Date(date.getMonth());
     }
 
+    const getYear = (date) => {
+        return new Date(date.getFullYear());
+    }
+
     const daysInMonth = getDaysInMonth(currentDate);
     const firstDay = getFirstDayOfMonth(currentDate);
 
-    const handleOpen = (day, currentMonth) => {
+    const handleOpen = (day) => {
+        const date = new Date(
+            currentDate.getFullYear(), 
+            currentDate.getMonth(), 
+            day
+        )
         setSelectedDay(day);
+        setSelectedDate(date);
         setOpen(true);
     };
+
 
     const handleClose = (day) => {
         setOpen(false);
@@ -78,9 +87,9 @@ const Calendar = () => {
                     <DayModal
                         open={open}
                         onClose={handleClose}
-                        day={selectedDay}
-                        month={currentDate.toLocaleString('default', { month: 'long' })}
-                        year={currentDate.getFullYear()}
+                        selectedDate={selectedDate}
+                        // month={currentDate.toLocaleString('default', { month: 'long' })}
+                        // year={currentDate.getFullYear()}
                     />
                 </div>
             </div>

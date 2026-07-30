@@ -17,11 +17,12 @@ import CircleIcon from '@mui/icons-material/Circle';
 
 
 
-export default function DayModal({ open, onClose, day, month, year }) {
+export default function DayModal({ open, onClose, selectedDate }) {
 
   const theme = useTheme();
-
-
+  // console.log(`date: ${selectedDate}`)
+  const fullDate = selectedDate.toLocaleString('default', { dateStyle: 'full' })
+  
   return (
     <React.Fragment>
       <Dialog
@@ -34,10 +35,10 @@ export default function DayModal({ open, onClose, day, month, year }) {
           {"Shift Status"}
         </DialogTitle>
         <Typography sx={{ fontSize: '1.2rem', textAlign: 'center' }}>
-          {day} {month} {year}
+          {fullDate}
         </Typography>
 
-        <ShiftTabs />
+        <ShiftTabs selectedDate={selectedDate} />
 
         <DialogContent>
           <DialogContentText>
