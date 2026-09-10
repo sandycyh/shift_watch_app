@@ -6,6 +6,12 @@ import LogAShift from './LogAShift';
 
 export default function Dashboard() {
     const [isLogOpen, setIsLogOpen] = React.useState(false);
+    const [calendarRefreshKey, setCalendarRefreshKey] = React.useState(0);
+
+    const handleShiftSaved = () => {
+        setCalendarRefreshKey((prev) => prev + 1);
+        setIsLogOpen(false);
+    };
 
     return (
         <>
@@ -52,11 +58,11 @@ export default function Dashboard() {
                 </div>
                 <Spacer size="10px" />
                 <div>
-                    <Calendar />
+                    <Calendar refreshKey={calendarRefreshKey} />
                 </div>
             </section>
 
-            <LogAShift open={isLogOpen} onClose={() => setIsLogOpen(false)} />
+            <LogAShift open={isLogOpen} onClose={handleShiftSaved} />
             <Footer />
         </>
     );

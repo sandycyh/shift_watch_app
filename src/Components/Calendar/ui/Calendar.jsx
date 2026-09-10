@@ -5,7 +5,7 @@ import CalendarCSS from './Calendar.module.css';
 import RenderDays from "./RenderDays";
 import DayModal from "../DayModal/DayModal";
 
-const Calendar = () => {
+const Calendar = ({ refreshKey = 0 }) => {
 
     const [currentDate, setCurrentDate] = useState(new Date());
     const [open, setOpen] = useState(false);
@@ -75,12 +75,13 @@ const Calendar = () => {
                 />
                 <div className={CalendarCSS.calendar}>
                     {RenderWeekDays()}
-                    <RenderDays 
-                        daysInMonth={daysInMonth} 
+                    <RenderDays
+                        key={refreshKey}
+                        daysInMonth={daysInMonth}
                         firstDay={firstDay}
                         handleOpen={handleOpen}
                         currentDate={currentDate}
-                        />
+                    />
                     <br />
                 </div>
                 <div>

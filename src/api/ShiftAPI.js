@@ -1,4 +1,4 @@
-const API = import.meta.env.VITE_API_URL || 'http://localhost:3000/api';
+const API = import.meta.env.VITE_API_URL || 'http://localhost:4000/api';
 
 export async function createShift(payload) {
     try {
@@ -11,10 +11,12 @@ export async function createShift(payload) {
         });
 
         if (!response.ok) {
-            throw new Error(`HTTP ${response.status}`);
+            const text = await response.text().catch(() => '');
+            throw new Error(`HTTP ${response.status}${text ? `: ${text}` : ''}`);
         }
 
-        return await response.json();
+        const text = await response.text();
+        return text ? JSON.parse(text) : null;
     } catch (err) {
         console.error('Failed to create shift:', err);
         return null;
@@ -25,19 +27,25 @@ export default async function getShift(date, shift) {
     try {
         const url = `${API}/shift/${date}/${shift}`;
 
-        console.log(url);
-
         const response = await fetch(url);
 
         if (!response.ok) {
-            throw new Error(`HTTP ${response.status}`);
+            const text = await response.text().catch(() => '');
+            throw new Error(`HTTP ${response.status}${text ? `: ${text}` : ''}`);
         }
 
-        const data = await response.json();
+        const text = await response.text();
+        if (!text) {
+            return null;
+        }
 
-        console.log(data);
-
-        return data;
+        try {
+            const data = JSON.parse(text);
+            return data;
+        } catch (parseError) {
+            console.error('Invalid JSON from shift API:', parseError, url, text);
+            return null;
+        }
 
     } catch (err) {
         console.error(err);

@@ -86,8 +86,11 @@ export default function LogAShift({ open = true, onClose = () => {} }) {
       unfilled_pos: form.unfilled_pos,
     };
 
-    await createShift(payload);
-    resetAndClose();
+    const result = await createShift(payload);
+    if (result) {
+      resetAndClose();
+      return;
+    }
   };
 
   return (
@@ -122,12 +125,17 @@ export default function LogAShift({ open = true, onClose = () => {} }) {
             fullWidth
           />
 
-          <TextField
-            label="Ward"
-            value={form.ward_name}
-            fullWidth
-            InputProps={{ readOnly: true }}
-          />
+          <FormControl fullWidth>
+            <InputLabel id="ward-label">Ward</InputLabel>
+            <Select
+              labelId="ward-label"
+              label="Ward"
+              value={form.ward_name}
+              onChange={handleFieldChange('ward_name')}
+            >
+              <MenuItem value="5East">5East</MenuItem>
+            </Select>
+          </FormControl>
 
           <FormControl fullWidth>
             <InputLabel id="shift-type-label">Shift Type</InputLabel>
