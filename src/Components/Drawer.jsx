@@ -14,7 +14,6 @@ export default function Drawer({ open, onClose }) {
                 </button>
                 <nav className='drawer_menu'>
                     <Link to='/' onClick={onClose}>Home</Link>
-                    <Link to='/LogAShift' onClick={onClose}>Log a shift</Link>
                 </nav>
             </aside>
         </>

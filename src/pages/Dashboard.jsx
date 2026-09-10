@@ -1,35 +1,63 @@
 import React from "react";
-import Button from '../Components/Button.jsx';
 import Spacer from '../Components/Spacer.jsx';
 import Calendar from "../Components/Calendar/ui/Calendar.jsx";
 import Footer from "../Components/Footer.jsx";
-
-import shiftWatchLogo from '../assets/icon.png';
-
+import LogAShift from './LogAShift';
 
 export default function Dashboard() {
+    const [isLogOpen, setIsLogOpen] = React.useState(false);
+
     return (
         <>
             <section id="center">
-                <div className="Header">
-                    <img src={shiftWatchLogo} className="base" width="270" height="279" />
+                <div style={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    marginTop: '18px',
+                    marginBottom: '28px'
+                }}>
+                    <button
+                        type="button"
+                        onClick={() => setIsLogOpen(true)}
+                        style={{
+                            background: 'linear-gradient(135deg, #2c7ef7 0%, #1d5ecb 50%, #154da8 100%)',
+                            color: '#ffffff',
+                            border: '1px solid rgba(255,255,255,0.2)',
+                            borderRadius: '14px',
+                            padding: '14px 30px',
+                            fontSize: '1rem',
+                            fontWeight: 800,
+                            letterSpacing: '0.03em',
+                            cursor: 'pointer',
+                            minWidth: '190px',
+                            marginTop: '10px',
+                            boxShadow: '0 14px 28px rgba(29, 94, 203, 0.28), inset 0 1px 0 rgba(255,255,255,0.25)',
+                            transition: 'transform 0.18s ease, box-shadow 0.18s ease, filter 0.18s ease',
+                            filter: 'drop-shadow(0 6px 12px rgba(21, 77, 168, 0.18))'
+                        }}
+                        onMouseEnter={(e) => {
+                            e.currentTarget.style.transform = 'translateY(-1px)';
+                            e.currentTarget.style.boxShadow = '0 18px 32px rgba(29, 94, 203, 0.34), inset 0 1px 0 rgba(255,255,255,0.25)';
+                            e.currentTarget.style.filter = 'drop-shadow(0 8px 16px rgba(21, 77, 168, 0.24))';
+                        }}
+                        onMouseLeave={(e) => {
+                            e.currentTarget.style.transform = 'translateY(0)';
+                            e.currentTarget.style.boxShadow = '0 14px 28px rgba(29, 94, 203, 0.28), inset 0 1px 0 rgba(255,255,255,0.25)';
+                            e.currentTarget.style.filter = 'drop-shadow(0 6px 12px rgba(21, 77, 168, 0.18))';
+                        }}
+                    >
+                        Log a shift
+                    </button>
                 </div>
-                <div>
-                    <header>Shift Watch</header>
-                    <p>Track Shift - Collect Edivence - Drive Change</p>
-                    <Spacer size="40px" />
-                    <Button text="Log a shift" to="/LogAShift" />
-                    <Spacer size="30px" />
-                </div>
+                <Spacer size="10px" />
                 <div>
                     <Calendar />
                 </div>
             </section>
-            
-            
 
+            <LogAShift open={isLogOpen} onClose={() => setIsLogOpen(false)} />
             <Footer />
-
         </>
     );
 }
