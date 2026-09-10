@@ -7,7 +7,6 @@ import DayModal from "../DayModal/DayModal";
 
 const Calendar = () => {
 
-    
     const [currentDate, setCurrentDate] = useState(new Date());
     const [open, setOpen] = useState(false);
     const [selectedDay, setSelectedDay] = useState(null);
@@ -79,7 +78,8 @@ const Calendar = () => {
                     <RenderDays 
                         daysInMonth={daysInMonth} 
                         firstDay={firstDay}
-                        handleOpen={handleOpen} 
+                        handleOpen={handleOpen}
+                        currentDate={currentDate}
                         />
                     <br />
                 </div>
@@ -88,8 +88,6 @@ const Calendar = () => {
                         open={open}
                         onClose={handleClose}
                         selectedDate={selectedDate}
-                        // month={currentDate.toLocaleString('default', { month: 'long' })}
-                        // year={currentDate.getFullYear()}
                     />
                 </div>
             </div>

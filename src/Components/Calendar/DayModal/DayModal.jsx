@@ -8,6 +8,7 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import Box from '@mui/material/Box';
 
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
@@ -20,16 +21,20 @@ import CircleIcon from '@mui/icons-material/Circle';
 export default function DayModal({ open, onClose, selectedDate }) {
 
   const theme = useTheme();
-  // console.log(`date: ${selectedDate}`)
+  const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
   const fullDate = selectedDate.toLocaleString('default', { dateStyle: 'full' })
-  
+
   return (
     <React.Fragment>
       <Dialog
-        maxWidth={'md'}
+        maxWidth="md"
+        fullWidth
+        fullScreen={fullScreen}
         open={open}
         onClose={onClose}
         aria-labelledby="shiftInfoDialog"
+        paperProps={{ sx: { maxHeight: 'calc(100vh - 96px)' } }}
+        scroll="paper"
       >
         <DialogTitle id="shiftInfoTitle">
           {"Shift Status"}
@@ -40,7 +45,9 @@ export default function DayModal({ open, onClose, selectedDate }) {
 
         <ShiftTabs selectedDate={selectedDate} />
 
-        <DialogContent>
+        <DialogContent sx={{ overflow: 'auto' }} />
+
+        <Box sx={{ px: 5, py: 0 }}>
           <DialogContentText>
             <CircleIcon sx={{ color: "#ef1010", fontSize: '0.8rem', marginRight: '5px' }} />
             Staffing Ratio Not Met
@@ -53,8 +60,7 @@ export default function DayModal({ open, onClose, selectedDate }) {
             <CircleIcon sx={{ color: "#ff8800", fontSize: '0.8rem', marginRight: '5px' }} />
             Shift Not Recorded
           </DialogContentText>
-        </DialogContent>
-
+        </Box>
 
         <DialogActions>
           <Button autoFocus onClick={onClose}>
