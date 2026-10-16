@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Dashboard from './pages/Dashboard';
+import Reports from './pages/Reports';
 import Navbar from './Components/NavBar';
 import Drawer from './Components/Drawer';
 
@@ -14,6 +15,7 @@ function App() {
       <main style={{ paddingTop: 64 }} >
         <Routes>
           <Route path="/" element={<Dashboard />} />
+          <Route path="/reports" element={<Reports />} />
         </Routes>
       </main>
     </BrowserRouter >

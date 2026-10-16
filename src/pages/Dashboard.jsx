@@ -1,8 +1,10 @@
 import React from "react";
+import './Dashboard.css';
 import Spacer from '../Components/Spacer.jsx';
 import Calendar from "../Components/Calendar/ui/Calendar.jsx";
 import Footer from "../Components/Footer.jsx";
 import LogAShift from './LogAShift';
+import CircleIcon from '@mui/icons-material/Circle';
 
 export default function Dashboard() {
     const [isLogOpen, setIsLogOpen] = React.useState(false);
@@ -15,54 +17,39 @@ export default function Dashboard() {
 
     return (
         <>
-            <section id="center">
-                <div style={{
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    marginTop: '18px',
-                    marginBottom: '28px'
-                }}>
+            <section id="center" className="dashboard-page">
+                <Spacer size="30px" />
+                <div className="dashboard-button-wrap">
                     <button
                         type="button"
-                        onClick={() => setIsLogOpen(true)}
-                        style={{
-                            background: 'linear-gradient(135deg, #2c7ef7 0%, #1d5ecb 50%, #154da8 100%)',
-                            color: '#ffffff',
-                            border: '1px solid rgba(255,255,255,0.2)',
-                            borderRadius: '14px',
-                            padding: '14px 30px',
-                            fontSize: '1rem',
-                            fontWeight: 800,
-                            letterSpacing: '0.03em',
-                            cursor: 'pointer',
-                            minWidth: '190px',
-                            marginTop: '10px',
-                            boxShadow: '0 14px 28px rgba(29, 94, 203, 0.28), inset 0 1px 0 rgba(255,255,255,0.25)',
-                            transition: 'transform 0.18s ease, box-shadow 0.18s ease, filter 0.18s ease',
-                            filter: 'drop-shadow(0 6px 12px rgba(21, 77, 168, 0.18))'
-                        }}
-                        onMouseEnter={(e) => {
-                            e.currentTarget.style.transform = 'translateY(-1px)';
-                            e.currentTarget.style.boxShadow = '0 18px 32px rgba(29, 94, 203, 0.34), inset 0 1px 0 rgba(255,255,255,0.25)';
-                            e.currentTarget.style.filter = 'drop-shadow(0 8px 16px rgba(21, 77, 168, 0.24))';
-                        }}
-                        onMouseLeave={(e) => {
-                            e.currentTarget.style.transform = 'translateY(0)';
-                            e.currentTarget.style.boxShadow = '0 14px 28px rgba(29, 94, 203, 0.28), inset 0 1px 0 rgba(255,255,255,0.25)';
-                            e.currentTarget.style.filter = 'drop-shadow(0 6px 12px rgba(21, 77, 168, 0.18))';
-                        }}
-                    >
+                        className="dashboard-cta-button"
+                        onClick={() => setIsLogOpen(true)}>
                         Log a shift
                     </button>
                 </div>
-                <Spacer size="10px" />
+                <Spacer size="20px" />
                 <div>
                     <Calendar refreshKey={calendarRefreshKey} />
+                </div>
+                <Spacer size="10px" />
+                <div className="dashboard-status-legend" aria-label="Shift staffing status legend">
+                    <span className="dashboard-status-item">
+                        <CircleIcon sx={{ color: '#ef1010', fontSize: '0.8rem' }} />
+                        Staffing Ratio Not Met
+                    </span>
+                    <span className="dashboard-status-item">
+                        <CircleIcon sx={{ color: '#2e7d32', fontSize: '0.8rem' }} />
+                        Fully Staffed
+                    </span>
+                    <span className="dashboard-status-item">
+                        <CircleIcon sx={{ color: '#ff8800', fontSize: '0.8rem' }} />
+                        Shift Not Recorded
+                    </span>
                 </div>
             </section>
 
             <LogAShift open={isLogOpen} onClose={handleShiftSaved} />
+            <Spacer size="50px" />
             <Footer />
         </>
     );

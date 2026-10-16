@@ -23,6 +23,32 @@ export async function createShift(payload) {
     }
 }
 
+export async function getWeeklyReportData(weekValue) {
+    try {
+        const response = await fetch(`${API}/shift/reports/${encodeURIComponent(weekValue)}`);
+
+        if (!response.ok) {
+            const text = await response.text().catch(() => '');
+            throw new Error(`HTTP ${response.status}${text ? `: ${text}` : ''}`);
+        }
+
+        const text = await response.text();
+        if (!text) {
+            return [];
+        }
+
+        try {
+            return JSON.parse(text);
+        } catch (parseError) {
+            console.error('Invalid JSON from weekly report API:', parseError, text);
+            return [];
+        }
+    } catch (err) {
+        console.error('Failed to fetch weekly report data:', err);
+        return [];
+    }
+}
+
 export default async function getShift(date, shift) {
     try {
         const url = `${API}/shift/${date}/${shift}`;
@@ -49,6 +75,32 @@ export default async function getShift(date, shift) {
 
     } catch (err) {
         console.error(err);
+        return null;
+    }
+}
+
+export async function updateShift(payload) {
+    try {
+        const response = await fetch(
+            `${API}/shift/${encodeURIComponent(payload.date)}/${encodeURIComponent(payload.shift_type)}`,
+            {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(payload),
+            },
+        );
+
+        if (!response.ok) {
+            const text = await response.text().catch(() => '');
+            throw new Error(`HTTP ${response.status}${text ? `: ${text}` : ''}`);
+        }
+
+        const text = await response.text();
+        return text ? JSON.parse(text) : null;
+    } catch (err) {
+        console.error('Failed to update shift:', err);
         return null;
     }
 }

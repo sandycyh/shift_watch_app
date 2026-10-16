@@ -1,0 +1,173 @@
+.log-shift-dialog .MuiDialog-paper {
+  border-radius: 18px;
+}
+
+.log-shift-form {
+  display: grid;
+  gap: 12px;
+  margin-top: 6px;
+}
+
+.log-shift-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.log-shift-row > * {
+  min-width: 0;
+}
+
+.log-shift-pair-50 > * {
+  flex: 0 1 50%;
+  width: 40%;
+}
+
+.log-shift-pair-45 > * {
+  flex: 0 1 45%;
+  width: 45%;
+}
+
+.log-shift-triple > * {
+  flex: 1 1 0;
+  width: 0;
+}
+
+.log-shift-number-field {
+  min-width: 0;
+}
+
+.log-shift-radio-row {
+  align-items: center;
+  gap: 8px;
+}
+
+.log-shift-radio-group {
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+.log-shift-radio-group .MuiFormLabel-root {
+  color: rgba(0, 0, 0, 0.6);
+  font-size: 0.875rem;
+}
+
+.log-shift-radio-group .MuiFormControlLabel-root {
+  margin-right: 8px;
+}
+
+.log-shift-radio-group .MuiFormControlLabel-label {
+  font-size: 0.875rem;
+}
+
+.log-shift-dialog-title {
+  text-align: center;
+  padding: 8px;
+}
+
+.log-shift-close-button {
+  position: relative; 
+  right: -35%
+  /* position: absolute;
+  right: -200px; */
+}
+
+.log-shift-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 24px 16px 0;
+}
+
+.unfilled-status-display {
+  margin-right: auto;
+  padding-left: 20px;
+  padding-bottom: 20px;
+
+}
+
+.unfilled-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 170px;
+  padding: 8px 12px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  font-size: 0.9rem;
+}
+
+.unfilled-status strong {
+  font-size: 1.1rem;
+}
+
+.unfilled-status.pending {
+  color: #52606d;
+  background: #f1f4f7;
+  border-color: #d9e0e7;
+}
+
+.unfilled-status.unfilled {
+  color: #a12622;
+  background: #fde9e7;
+  border-color: #f3c6c1;
+}
+
+.unfilled-status.filled {
+  color: #216e3a;
+  background: #e7f5eb;
+  border-color: #c3e6cc;
+}
+
+.log-shift-action-buttons {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-right: 20px;
+}
+
+.log-shift-actions .MuiButton-root {
+  min-width: 110px;
+}
+
+@media (max-width: 600px) {
+  .log-shift-row {
+    gap: 10px;
+  }
+
+  .log-shift-radio-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .log-shift-radio-group {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .log-shift-actions {
+    gap: 12px;
+    padding-right: 16px;
+    padding-left: 0;
+  }
+
+  .unfilled-status {
+    min-width: 0;
+    gap: 8px;
+    padding: 8px;
+    font-size: 0.8rem;
+  }
+
+  .log-shift-action-buttons {
+    gap: 2px;
+  }
+
+  .log-shift-actions .MuiButton-root {
+    min-width: 0;
+    padding-right: 8px;
+    padding-left: 8px;
+  }
+}

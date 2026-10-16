@@ -10,15 +10,15 @@ import CircleIcon from '@mui/icons-material/Circle';
 import staffingFields from '@/config/StaffFields';
 import getShift from '@/api/shiftAPI';
 
-export default function ShiftTabs({ selectedDate }) {
+const shiftTypes = ['AM', 'PM', 'ND'];
+
+export default function ShiftTabs({ selectedDate, onActiveShiftChange = () => {}, refreshKey = 0 }) {
   const [tab, setTab] = React.useState('AM');
   const [shiftDataMap, setShiftDataMap] = React.useState({});
 
   const date = `${selectedDate.getFullYear()}-${String(
     selectedDate.getMonth() + 1,
   ).padStart(2, '0')}-${String(selectedDate.getDate()).padStart(2, '0')}`;
-  const shiftTypes = ['AM', 'PM', 'ND'];
-
   const handleChange = (event, newTab) => {
     setTab(newTab);
   };
@@ -57,7 +57,11 @@ export default function ShiftTabs({ selectedDate }) {
       setShiftDataMap(map);
     }
     loadAllShifts();
-  }, [date]);
+  }, [date, refreshKey]);
+
+  React.useEffect(() => {
+    onActiveShiftChange(shiftDataMap[tab] ?? null);
+  }, [onActiveShiftChange, shiftDataMap, tab]);
 
   const shiftContent = () => {
     const shiftData = shiftDataMap[tab];

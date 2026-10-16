@@ -13,7 +13,8 @@ export default function Drawer({ open, onClose }) {
                     x
                 </button>
                 <nav className='drawer_menu'>
-                    <Link to='/' onClick={onClose}>Home</Link>
+                    <Link to='/' onClick={onClose}>Dashboard</Link>
+                    <Link to='/reports' onClick={onClose}>Reports</Link>
                 </nav>
             </aside>
         </>

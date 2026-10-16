@@ -1,16 +1,18 @@
-import React, { useEffect, useState } from "react";
+import { useState } from "react";
 import RenderWeekDays from './RenderWeekDays';
 import CalendarHeader from './CalendarHeader';
 import CalendarCSS from './Calendar.module.css';
 import RenderDays from "./RenderDays";
 import DayModal from "../DayModal/DayModal";
+import LogAShift from "../../../pages/LogAShift";
 
 const Calendar = ({ refreshKey = 0 }) => {
 
     const [currentDate, setCurrentDate] = useState(new Date());
     const [open, setOpen] = useState(false);
-    const [selectedDay, setSelectedDay] = useState(null);
     const [selectedDate, setSelectedDate] = useState(currentDate);
+    const [editingShift, setEditingShift] = useState(null);
+    const [dataRefreshKey, setDataRefreshKey] = useState(0);
 
 
     const goToCurrentMonth = () => {
@@ -37,14 +39,6 @@ const Calendar = ({ refreshKey = 0 }) => {
         return new Date(date.getFullYear(), date.getMonth(), 1).getDay();
     };
 
-    const getMonth = (date) => {
-        return new Date(date.getMonth());
-    }
-
-    const getYear = (date) => {
-        return new Date(date.getFullYear());
-    }
-
     const daysInMonth = getDaysInMonth(currentDate);
     const firstDay = getFirstDayOfMonth(currentDate);
 
@@ -54,15 +48,22 @@ const Calendar = ({ refreshKey = 0 }) => {
             currentDate.getMonth(), 
             day
         )
-        setSelectedDay(day);
         setSelectedDate(date);
         setOpen(true);
     };
 
 
-    const handleClose = (day) => {
+    const handleClose = () => {
         setOpen(false);
     }
+
+    const handleEditShift = (shiftRecord) => {
+        if (!shiftRecord) return;
+
+        const date = `${selectedDate.getFullYear()}-${String(selectedDate.getMonth() + 1).padStart(2, '0')}-${String(selectedDate.getDate()).padStart(2, '0')}`;
+        setOpen(false);
+        setEditingShift({ ...shiftRecord, date, shift_date: date });
+    };
 
     return (
         <>
@@ -76,7 +77,7 @@ const Calendar = ({ refreshKey = 0 }) => {
                 <div className={CalendarCSS.calendar}>
                     {RenderWeekDays()}
                     <RenderDays
-                        key={refreshKey}
+                        key={`${refreshKey}-${dataRefreshKey}`}
                         daysInMonth={daysInMonth}
                         firstDay={firstDay}
                         handleOpen={handleOpen}
@@ -86,12 +87,23 @@ const Calendar = ({ refreshKey = 0 }) => {
                 </div>
                 <div>
                     <DayModal
+                        key={`${selectedDate.toISOString()}-${refreshKey}-${dataRefreshKey}`}
                         open={open}
                         onClose={handleClose}
                         selectedDate={selectedDate}
+                        onEdit={handleEditShift}
+                        refreshKey={refreshKey + dataRefreshKey}
                     />
                 </div>
             </div>
+            {editingShift && (
+                <LogAShift
+                    open
+                    initialData={editingShift}
+                    onClose={() => setEditingShift(null)}
+                    onSaved={() => setDataRefreshKey((value) => value + 1)}
+                />
+            )}
         </>
     );
 }

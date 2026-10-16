@@ -18,7 +18,8 @@ import CircleIcon from '@mui/icons-material/Circle';
 
 
 
-export default function DayModal({ open, onClose, selectedDate }) {
+export default function DayModal({ open, onClose, selectedDate, onEdit, refreshKey = 0 }) {
+  const [activeShift, setActiveShift] = React.useState(null);
 
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
@@ -43,7 +44,11 @@ export default function DayModal({ open, onClose, selectedDate }) {
           {fullDate}
         </Typography>
 
-        <ShiftTabs selectedDate={selectedDate} />
+        <ShiftTabs
+          selectedDate={selectedDate}
+          onActiveShiftChange={setActiveShift}
+          refreshKey={refreshKey}
+        />
 
         <DialogContent sx={{ overflow: 'auto' }} />
 
@@ -63,7 +68,10 @@ export default function DayModal({ open, onClose, selectedDate }) {
         </Box>
 
         <DialogActions>
-          <Button autoFocus onClick={onClose}>
+          <Button
+            onClick={() => onEdit(activeShift)}
+            disabled={!activeShift}
+          >
             Edit
           </Button>
           <Button onClick={onClose} autoFocus>
