@@ -1,4 +1,26 @@
-const API = import.meta.env.VITE_API_URL || 'http://localhost:4000/api';
+const resolveApiBase = () => {
+    if (import.meta.env.VITE_API_URL) {
+        return import.meta.env.VITE_API_URL.replace(/\/$/, '');
+    }
+
+    if (typeof window === 'undefined') {
+        return 'http://localhost:4000/api';
+    }
+
+    const { protocol, hostname } = window.location;
+
+    if (hostname === 'localhost' || hostname === '127.0.0.1') {
+        return 'http://localhost:4000/api';
+    }
+
+    if (hostname.includes('192.168.') || hostname.includes('10.') || hostname.includes('172.')) {
+        return `${protocol}//${hostname}:4000/api`;
+    }
+
+    return `${protocol}//${hostname}/api`;
+};
+
+const API = resolveApiBase();
 
 export async function createShift(payload) {
     try {
