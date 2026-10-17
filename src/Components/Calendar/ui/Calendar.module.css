@@ -50,11 +50,26 @@ div.weekdays {
     justify-content: center;
     align-items: center;
     border-right: 1px solid black;
+    padding: 0 4px;
+    overflow: hidden;
+}
+
+.weekdays p {
+    margin: 0;
+    text-align: center;
+    font-size: 0.8rem;
+    line-height: 1.15;
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 div.calendar {
     display: grid;
     grid-template-columns: repeat(7, minmax(0, 1fr));
+    width: 100%;
+    max-width: 100%;
 }
 
 div.gridItem {
@@ -67,6 +82,7 @@ div.gridItem {
     padding: 6px 8px;
     cursor: pointer;
     transition: background-color 0.2s ease;
+    overflow: hidden;
 }
 
 div.gridItem:hover {
@@ -78,6 +94,7 @@ div.gridItem:hover {
     display: flex;
     flex-direction: column;
     gap: 6px;
+    min-width: 0;
 }
 
 .dayNumber {
@@ -93,6 +110,7 @@ div.gridItem:hover {
     align-items: flex-start;
     font-size: 0.7rem;
     color: #333;
+    min-width: 0;
 }
 
 .shiftStatus {
@@ -100,6 +118,7 @@ div.gridItem:hover {
     align-items: center;
     gap: 4px;
     line-height: 1;
+    max-width: 100%;
 }
 
 div.gridButton {
@@ -128,4 +147,59 @@ div.gridButton {
 
 .empty-day {
     background-color: #f5f5f5;
+}
+
+@media (max-width: 600px) {
+    .container {
+        padding: 8px;
+    }
+
+    .header {
+        gap: 10px;
+        margin-bottom: 12px;
+        padding-bottom: 8px;
+    }
+
+    .title {
+        font-size: 1rem;
+        white-space: normal;
+    }
+
+    .button {
+        width: 40px;
+        height: 28px;
+        font-size: 0.9rem;
+    }
+
+    div.weekdays {
+        height: 52px;
+        padding: 0 2px;
+    }
+
+    .weekdays p {
+        font-size: 0.58rem;
+        letter-spacing: 0.02em;
+    }
+
+    div.gridItem {
+        min-height: 70px;
+        padding: 4px 5px;
+    }
+
+    .dayCellContent {
+        gap: 4px;
+    }
+
+    .dayNumber {
+        font-size: 0.78rem;
+    }
+
+    .shiftSummary {
+        font-size: 0.56rem;
+        gap: 3px;
+    }
+
+    .shiftStatus {
+        gap: 3px;
+    }
 }
