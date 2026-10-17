@@ -21,7 +21,7 @@ import {
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import { useTheme } from '@mui/material/styles';
-import { createShift, updateShift } from '@/api/ShiftAPI';
+import { createShift, updateShift } from '@/api/shiftAPI';
 import Spacer from '../Components/Spacer';
 
 const initialForm = {
