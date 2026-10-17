@@ -1,7 +1,7 @@
 import React from 'react';
 import './Reports.css';
 import Spacer from '../Components/Spacer';
-import { getWeeklyReportData } from '../api/ShiftAPI';
+import { getWeeklyReportData } from '../api/shiftAPI';
 
 const shiftOrder = ['AM', 'PM', 'ND'];
 
