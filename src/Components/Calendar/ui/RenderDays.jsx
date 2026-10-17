@@ -1,6 +1,6 @@
 import React from 'react';
 import CircleIcon from '@mui/icons-material/Circle';
-import getShift from '@/api/shiftAPI';
+import getShift from '@/api/ShiftAPI';
 import CalendarCSS from './Calendar.module.css';
 
 const shiftTypes = ['AM', 'PM', 'ND'];

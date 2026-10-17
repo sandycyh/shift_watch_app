@@ -5,6 +5,34 @@ import { getWeeklyReportData } from '../api/ShiftAPI';
 
 const shiftOrder = ['AM', 'PM', 'ND'];
 
+const getCurrentIsoWeek = () => {
+  const today = new Date();
+  const date = new Date(Date.UTC(today.getFullYear(), today.getMonth(), today.getDate()));
+  date.setUTCDate(date.getUTCDate() + 4 - (date.getUTCDay() || 7));
+  const year = date.getUTCFullYear();
+  const yearStart = new Date(Date.UTC(year, 0, 1));
+  const week = Math.ceil((((date - yearStart) / 86400000) + 1) / 7);
+
+  return `${year}-W${String(week).padStart(2, '0')}`;
+};
+
+const shiftIsoWeek = (weekValue, offset) => {
+  const [yearText, weekText] = weekValue.split('-W');
+  const year = Number(yearText);
+  const week = Number(weekText);
+  if (!year || !week) return weekValue;
+
+  const date = new Date(Date.UTC(year, 0, 4));
+  const day = date.getUTCDay() || 7;
+  date.setUTCDate(date.getUTCDate() - day + 1 + (week - 1 + offset) * 7);
+  date.setUTCDate(date.getUTCDate() + 3);
+
+  const isoYear = date.getUTCFullYear();
+  const yearStart = new Date(Date.UTC(isoYear, 0, 1));
+  const isoWeek = Math.ceil((((date - yearStart) / 86400000) + 1) / 7);
+  return `${isoYear}-W${String(isoWeek).padStart(2, '0')}`;
+};
+
 const getWeekDateRange = (weekValue) => {
   if (!weekValue) {
     return 'No week selected';
@@ -36,26 +64,42 @@ const getWeekDateRange = (weekValue) => {
 
 export default function Reports() {
   const [selectedDate, setSelectedDate] = React.useState('');
-  const [selectedWeek, setSelectedWeek] = React.useState('2026-W38');
+  const [selectedWeek, setSelectedWeek] = React.useState(getCurrentIsoWeek);
   const [reportRows, setReportRows] = React.useState([]);
   const [loading, setLoading] = React.useState(false);
+  const [error, setError] = React.useState('');
 
   const weekRangeLabel = React.useMemo(() => getWeekDateRange(selectedWeek), [selectedWeek]);
 
   React.useEffect(() => {
+    let active = true;
+
     const loadData = async () => {
       setLoading(true);
-      const data = await getWeeklyReportData(selectedWeek);
-      setReportRows(data);
+      setError('');
+      try {
+        const data = await getWeeklyReportData(selectedWeek);
+        if (!active) return;
 
-      if (data.length > 0) {
-        const orderedByDate = [...data].sort((a, b) => new Date(a.shift_date) - new Date(b.shift_date));
-        setSelectedDate(orderedByDate[0].shift_date);
+        setReportRows(data);
+        const firstRow = [...data].sort((a, b) => new Date(a.shift_date) - new Date(b.shift_date))[0];
+        setSelectedDate(firstRow ? String(firstRow.shift_date).slice(0, 10) : '');
+      } catch (loadError) {
+        if (!active) return;
+
+        setReportRows([]);
+        setSelectedDate('');
+        setError(loadError instanceof Error ? loadError.message : 'Failed to load report data.');
+      } finally {
+        if (active) setLoading(false);
       }
-      setLoading(false);
     };
 
     loadData();
+
+    return () => {
+      active = false;
+    };
   }, [selectedWeek]);
 
   const dayMap = React.useMemo(() => {
@@ -139,6 +183,10 @@ export default function Reports() {
     setSelectedDate(date);
   };
 
+  const handleWeekChange = (offset) => {
+    setSelectedWeek((week) => shiftIsoWeek(week, offset));
+  };
+
   return (
     <div className="reports-page">
       <Spacer size="10px" />
@@ -164,6 +212,11 @@ export default function Reports() {
           />
         </div>
       </div>
+
+      {error && <div className="report-message report-error" role="alert">Unable to load report data: {error}</div>}
+      {!loading && !error && reportRows.length === 0 && (
+        <div className="report-message" role="status">No shift records found for this week.</div>
+      )}
 
       <div className="reports-grid">
         {selectedDayRows.map((item) => (
@@ -201,7 +254,27 @@ export default function Reports() {
       <div className="weekly-panel">
         <div className="weekly-header-row">
           <h3>Weekly overview</h3>
-          <h3>{weekRangeLabel}</h3>
+          <div className="weekly-navigation" aria-label="Week navigation">
+            <button
+              type="button"
+              className="week-nav-button"
+              aria-label="Previous week"
+              title="Previous week"
+              onClick={() => handleWeekChange(-1)}
+            >
+              <span aria-hidden="true">&#8249;</span>
+            </button>
+            <h3 aria-live="polite">{weekRangeLabel}</h3>
+            <button
+              type="button"
+              className="week-nav-button"
+              aria-label="Next week"
+              title="Next week"
+              onClick={() => handleWeekChange(1)}
+            >
+              <span aria-hidden="true">&#8250;</span>
+            </button>
+          </div>
           <div className="weekly-total">
             <span>Total fill rate</span>
             <strong>{weeklyFill}%</strong>

@@ -24,29 +24,19 @@ export async function createShift(payload) {
 }
 
 export async function getWeeklyReportData(weekValue) {
-    try {
-        const response = await fetch(`${API}/shift/reports/${encodeURIComponent(weekValue)}`);
+    const response = await fetch(`${API}/shift/reports/${encodeURIComponent(weekValue)}`);
 
-        if (!response.ok) {
-            const text = await response.text().catch(() => '');
-            throw new Error(`HTTP ${response.status}${text ? `: ${text}` : ''}`);
-        }
-
-        const text = await response.text();
-        if (!text) {
-            return [];
-        }
-
-        try {
-            return JSON.parse(text);
-        } catch (parseError) {
-            console.error('Invalid JSON from weekly report API:', parseError, text);
-            return [];
-        }
-    } catch (err) {
-        console.error('Failed to fetch weekly report data:', err);
-        return [];
+    if (!response.ok) {
+        const text = await response.text().catch(() => '');
+        throw new Error(`HTTP ${response.status}${text ? `: ${text}` : ''}`);
     }
+
+    const data = await response.json();
+    if (!Array.isArray(data)) {
+        throw new Error('Weekly report API returned an invalid response.');
+    }
+
+    return data;
 }
 
 export default async function getShift(date, shift) {
