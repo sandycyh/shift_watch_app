@@ -10,7 +10,6 @@
     align-items: center;
     gap: 16px;
     margin-bottom: 18px;
-
 }
 
 .selected-date-block,
@@ -45,7 +44,6 @@
     background: #7fd1ee;
     padding: 8px 12px;
     min-width: 120px;
-
 }
 
 .selected-week-block {
@@ -305,17 +303,56 @@
 }
 
 @media (max-width: 640px) {
+    .reports-page {
+        margin: 18px auto;
+        padding: 0 12px 22px;
+    }
+
+    .reports-header {
+        grid-template-columns: 1fr;
+        justify-items: center;
+        text-align: center;
+    }
+
+    .selected-date-block,
+    .selected-week-block {
+        align-items: center;
+        justify-self: center;
+        width: 100%;
+    }
+
+    .selected-week-block input {
+        width: 100%;
+        min-width: 0;
+    }
+
+    .reports-reminder {
+        max-width: none;
+        width: 100%;
+    }
+
+    .report-row {
+        grid-template-columns: 1fr;
+    }
+
     .weekly-header-row {
         flex-wrap: wrap;
+        flex-direction: column;
+        align-items: stretch;
     }
 
     .weekly-navigation {
         order: 3;
         width: 100%;
+        justify-content: space-between;
     }
 
     .weekly-navigation h3 {
         min-width: 120px;
         text-align: center;
+    }
+
+    .weekly-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 }

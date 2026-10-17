@@ -1,0 +1,9 @@
+.app-main {
+  padding-top: 64px;
+}
+
+@media (max-width: 600px) {
+  .app-main {
+    padding-top: 92px;
+  }
+}

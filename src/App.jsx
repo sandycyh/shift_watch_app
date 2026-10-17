@@ -4,6 +4,7 @@ import Dashboard from './pages/Dashboard';
 import Reports from './pages/Reports';
 import Navbar from './Components/NavBar';
 import Drawer from './Components/Drawer';
+import './App.css';
 
 function App() {
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -12,7 +13,7 @@ function App() {
     <BrowserRouter>
       <Navbar onMenu={() => setDrawerOpen(true)} />
       <Drawer open={drawerOpen} onClose={() => setDrawerOpen(false)} />
-      <main style={{ paddingTop: 64 }} >
+      <main className="app-main">
         <Routes>
           <Route path="/" element={<Dashboard />} />
           <Route path="/reports" element={<Reports />} />
