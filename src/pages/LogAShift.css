@@ -38,6 +38,16 @@
   min-width: 0;
 }
 
+.shift-details-toggle {
+  justify-self: start;
+}
+
+.shift-details-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 12px;
+}
+
 .log-shift-radio-row {
   align-items: center;
   gap: 8px;

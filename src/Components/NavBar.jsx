@@ -9,7 +9,6 @@ export default function NavBar({ onMenu }) {
                 ☰
             </button>
 
-
             <div className="navbar_branding">
                 <div className="navbar_text">
                     <div className="navbar_brand">Shift Watch</div>

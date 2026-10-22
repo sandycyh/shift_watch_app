@@ -18,8 +18,11 @@ import {
   Select,
   TextField,
   useMediaQuery,
+  Collapse,
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import { useTheme } from '@mui/material/styles';
 import { createShift, updateShift } from '@/api/shiftAPI';
 import Spacer from '../Components/Spacer';
@@ -41,6 +44,13 @@ const initialForm = {
   TL_pt_load: '',
   NUM_present: '',
   comments: '',
+  admission: '',
+  discharge: '',
+  high_acuity: '',
+  high_dependency: '',
+  specials_1to1: '',
+  falls_risk: '',
+  behavioural_patients: '',
 };
 
 const numericFields = [
@@ -53,6 +63,13 @@ const numericFields = [
   'casual_agency_count',
   'IPS_planned', 
   'IPS_actual', 
+  'admission',
+  'discharge',
+  'high_acuity',
+  'high_dependency',
+  'specials_1to1',
+  'falls_risk',
+  'behavioural_patients',
 ];
 
 const sanitiseNumber = (value) => {
@@ -96,6 +113,13 @@ const getInitialForm = (initialData) => {
     TL_pt_load: toYesNo(initialData.TL_pt_load),
     NUM_present: toYesNo(initialData.NUM_present),
     comments: initialData.comments ?? '',
+    admission: String(initialData.admission ?? ''),
+    discharge: String(initialData.discharge ?? ''),
+    high_acuity: String(initialData.high_acuity ?? ''),
+    high_dependency: String(initialData.high_dependency ?? ''),
+    specials_1to1: String(initialData.specials_1to1 ?? ''),
+    falls_risk: String(initialData.falls_risk ?? ''),
+    behavioural_patients: String(initialData.behavioural_patients ?? ''),
   };
 };
 
@@ -103,6 +127,7 @@ export default function LogAShift({ open = true, onClose = () => {}, onSaved = (
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
   const [form, setForm] = React.useState(() => getInitialForm(initialData));
+  const [shiftDetailsOpen, setShiftDetailsOpen] = React.useState(false);
   const isEditing = Boolean(initialData);
 
   const handleFieldChange = (field) => (event) => {
@@ -183,6 +208,13 @@ export default function LogAShift({ open = true, onClose = () => {}, onSaved = (
       NUM_present: form.NUM_present,
       unfilled_pos: unfilledPositions,
       comments: form.comments,
+      admission: form.admission,
+      discharge: form.discharge,
+      high_acuity: form.high_acuity,
+      high_dependency: form.high_dependency,
+      specials_1to1: form.specials_1to1,
+      falls_risk: form.falls_risk,
+      behavioural_patients: form.behavioural_patients,
     };
 
     const result = isEditing ? await updateShift(payload) : await createShift(payload);
@@ -301,6 +333,31 @@ export default function LogAShift({ open = true, onClose = () => {}, onSaved = (
             minRows={2}
             fullWidth
           />
+
+          <Button
+            type="button"
+            className="shift-details-toggle"
+            onClick={() => setShiftDetailsOpen((isOpen) => !isOpen)}
+            aria-expanded={shiftDetailsOpen}
+            aria-controls="shift-details-fields"
+            endIcon={shiftDetailsOpen ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+          >
+            Shift Details
+          </Button>
+
+          <Collapse in={shiftDetailsOpen} unmountOnExit>
+            <div id="shift-details-fields" className="shift-details-grid">
+              {[
+                { key: 'admission', label: 'Admissions' },
+                { key: 'discharge', label: 'Discharges' },
+                { key: 'high_acuity', label: 'High Acuity Patients' },
+                { key: 'high_dependency', label: 'High Dependency Patients' },
+                { key: 'specials_1to1', label: 'IPS Patients' },
+                { key: 'falls_risk', label: 'High Falls Risk Patients' },
+                { key: 'behavioural_patients', label: 'Patients with Behavioural Issues' },
+              ].map(renderNumericField)}
+            </div>
+          </Collapse>
         </Box>
       </DialogContent>
 

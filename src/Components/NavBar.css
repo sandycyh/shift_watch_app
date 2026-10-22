@@ -4,9 +4,9 @@
   left: 0;
   right: 0;
   height: 90px;
-  display: flex;
+  display: grid;
+  grid-template-columns: 40px minmax(0, 1fr) 80px;
   align-items: center;
-  justify-content: space-between;
   gap: 12px;
   padding: 0 16px;
   background: #1e3a8a;
@@ -27,7 +27,7 @@
 .navbar_branding_logo {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-end;
   flex-shrink: 0;
 }
 
@@ -36,9 +36,21 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  flex: 1 1 auto;
+  grid-column: 2;
+  grid-row: 1;
+  width: 100%;
   min-width: 0;
   transform: none;
+}
+
+.navbar_menu {
+  grid-column: 1;
+  grid-row: 1;
+}
+
+.navbar_branding_logo {
+  grid-column: 3;
+  grid-row: 1;
 }
 
 .navbar_logo {
@@ -72,6 +84,7 @@
 
 @media (max-width: 600px) {
   .navbar {
+    grid-template-columns: 32px minmax(0, 1fr) 52px;
     height: auto;
     min-height: 78px;
     padding: 8px 10px;
