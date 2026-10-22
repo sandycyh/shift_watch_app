@@ -20,6 +20,12 @@ import CircleIcon from '@mui/icons-material/Circle';
 
 export default function DayModal({ open, onClose, selectedDate, onEdit, refreshKey = 0 }) {
   const [activeShift, setActiveShift] = React.useState(null);
+  const [activeShiftType, setActiveShiftType] = React.useState('AM');
+
+  const handleActiveShiftChange = React.useCallback((shiftRecord, shiftType) => {
+    setActiveShift(shiftRecord);
+    setActiveShiftType(shiftType);
+  }, []);
 
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
@@ -37,8 +43,15 @@ export default function DayModal({ open, onClose, selectedDate, onEdit, refreshK
         paperProps={{ sx: { maxHeight: 'calc(100vh - 96px)' } }}
         scroll="paper"
       >
-        <DialogTitle id="shiftInfoTitle">
-          {"Shift Status"}
+        <DialogTitle
+          id="shiftInfoTitle"
+          sx={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start', gap: 2, flexWrap: 'wrap' }}
+        >
+          <span>Shift Status</span>
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, flexShrink: 0}}>
+            <Typography sx={{fontSize: '1.1rem' }} component="span" variant="subtitle1">{activeShift?.ward_name || '5East'}</Typography>
+            <Typography sx={{fontSize: '1.1rem' }} component="span" variant="subtitle1">{activeShiftType}</Typography>
+          </Box>
         </DialogTitle>
         <Typography sx={{ fontSize: '1.2rem', textAlign: 'center' }}>
           {fullDate}
@@ -46,7 +59,7 @@ export default function DayModal({ open, onClose, selectedDate, onEdit, refreshK
 
         <ShiftTabs
           selectedDate={selectedDate}
-          onActiveShiftChange={setActiveShift}
+          onActiveShiftChange={handleActiveShiftChange}
           refreshKey={refreshKey}
         />
 

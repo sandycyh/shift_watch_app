@@ -7,10 +7,41 @@ import TabPanel from '@mui/lab/TabPanel';
 import { Grid, Typography } from '@mui/material';
 import CircleIcon from '@mui/icons-material/Circle';
 
-import staffingFields from '@/config/StaffFields';
 import getShift from '@/api/shiftAPI';
 
 const shiftTypes = ['AM', 'PM', 'ND'];
+const staffingFields = [
+  { key: 'planned_staff', label: 'Planned Staff' },
+  { key: 'actual_staff', label: 'Actual Staff' },
+  { key: 'permanent_count', label: 'Permanent Staff' },
+  { key: 'casual_agency_count', label: 'Casual & Agency Staff' },
+  { key: 'RN_count', label: 'RN' },
+  { key: 'EN_count', label: 'EN' },
+  { key: 'AIN_count', label: 'AIN' },
+  { key: 'IPS_planned', label: 'IPS Planned' },
+  { key: 'IPS_actual', label: 'IPS Actual' },
+  { key: 'NUM_present', label: 'NUM Present' },
+  { key: 'TL', label: 'T/L' },
+  { key: 'TL_pt_load', label: 'T/L with patient load' },
+  { key: 'comments', label: 'Comments' },
+  { key: 'unfilled_pos', label: 'Unfilled Position' },
+];
+const shiftDetailFields = [
+  { key: 'admission', label: 'Admissions' },
+  { key: 'discharge', label: 'Discharges' },
+  { key: 'high_acuity', label: 'High Acuity Patients' },
+  { key: 'high_dependency', label: 'High Dependency Patients' },
+  { key: 'specials_1to1', label: 'IPS Patients' },
+  { key: 'falls_risk', label: 'High Falls Risk Patients' },
+  { key: 'behavioural_patients', label: 'Patients with Behavioural Issues' },
+];
+
+const displayValue = (key, value) => {
+  if (value === null || value === undefined || value === '') return '--';
+  if (key === 'TL' || key === 'TL_pt_load') return Number(value) === 1 ? 'Yes' : 'No';
+  if (key === 'NUM_present') return String(value).toUpperCase() === 'YES' ? 'Yes' : 'No';
+  return String(value);
+};
 
 export default function ShiftTabs({ selectedDate, onActiveShiftChange = () => {}, refreshKey = 0 }) {
   const [tab, setTab] = React.useState('AM');
@@ -60,27 +91,59 @@ export default function ShiftTabs({ selectedDate, onActiveShiftChange = () => {}
   }, [date, refreshKey]);
 
   React.useEffect(() => {
-    onActiveShiftChange(shiftDataMap[tab] ?? null);
+    onActiveShiftChange(shiftDataMap[tab] ?? null, tab);
   }, [onActiveShiftChange, shiftDataMap, tab]);
 
   const shiftContent = () => {
     const shiftData = shiftDataMap[tab];
     if (!shiftData) return 'No data logged';
 
-    return (
-      <Grid container spacing={0.4}>
-        {staffingFields.map((field) => (
-          <React.Fragment key={field.key}>
-            <Grid size={4} sx={{ marginLeft: 2 }}>
-              <Typography>{field.label}</Typography>
-            </Grid>
-
-            <Grid size={4}>
-              <Typography align="left">{shiftData[field.key]}</Typography>
-            </Grid>
-          </React.Fragment>
-        ))}
+    const renderFields = (fields) => fields.map((field) => (
+      <Grid
+        key={field.key}
+        container
+        sx={{ py: 0.9, borderBottom: '1px solid', borderColor: 'divider' }}
+      >
+        <Grid size={{ xs: 7 }}>
+          <Typography variant="body2" color="text.secondary">
+            {field.label}
+          </Typography>
+        </Grid>
+        <Grid size={{ xs: 5 }}>
+          <Typography
+            variant="body2"
+            sx={{ whiteSpace: field.key === 'comments' ? 'pre-wrap' : 'normal', overflowWrap: 'anywhere' }}
+          >
+            {displayValue(field.key, shiftData[field.key])}
+          </Typography>
+        </Grid>
       </Grid>
+    ));
+
+    return (
+      <Box
+        sx={{
+          display: 'grid',
+          gridTemplateColumns: { xs: '1fr', md: 'minmax(0, 1.2fr) minmax(0, 0.8fr)' },
+          gap: { xs: 2, md: 2 },
+          px: { xs: 1, sm: 3 },
+          py: 1,
+        }}
+      >
+        <Box component="section" aria-labelledby={`${tab}-staffing-heading`}>
+          <Typography id={`${tab}-staffing-heading`} variant="h6" sx={{ mb: 1 }}>
+            Staffing
+          </Typography>
+          {renderFields(staffingFields)}
+        </Box>
+
+        <Box component="section" aria-labelledby={`${tab}-details-heading`}>
+          <Typography id={`${tab}-details-heading`} variant="h6" sx={{ mb: 1 }}>
+            Shift Details
+          </Typography>
+          {renderFields(shiftDetailFields)}
+        </Box>
+      </Box>
     );
   };
 
