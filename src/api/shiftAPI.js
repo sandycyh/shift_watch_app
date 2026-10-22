@@ -23,6 +23,7 @@ const resolveApiBase = () => {
 
 const API = resolveApiBase();
 
+
 export async function createShift(payload) {
     try {
         const response = await fetch(`${API}/shift`, {
@@ -65,7 +66,7 @@ export async function getWeeklyReportData(weekValue) {
 export default async function getShift(date, shift) {
     try {
         const url = `${API}/shift/${date}/${shift}`;
-
+        console.log(API)
         const response = await fetch(url);
 
         if (!response.ok) {
