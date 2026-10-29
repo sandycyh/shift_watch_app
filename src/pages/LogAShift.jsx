@@ -1,6 +1,7 @@
 import * as React from 'react';
 import './LogAShift.css';
 import {
+  Alert,
   Box,
   Button,
   Dialog,
@@ -128,10 +129,13 @@ export default function LogAShift({ open = true, onClose = () => {}, onSaved = (
   const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
   const [form, setForm] = React.useState(() => getInitialForm(initialData));
   const [shiftDetailsOpen, setShiftDetailsOpen] = React.useState(false);
+  const [saveError, setSaveError] = React.useState('');
+  const [saving, setSaving] = React.useState(false);
   const isEditing = Boolean(initialData);
 
   const handleFieldChange = (field) => (event) => {
     const value = event.target.value;
+    setSaveError('');
 
     if (numericFields.includes(field)) {
       setForm((prev) => ({ ...prev, [field]: sanitiseNumber(value) }));
@@ -190,6 +194,8 @@ export default function LogAShift({ open = true, onClose = () => {}, onSaved = (
     : '';
 
   const handleSubmit = async () => {
+    setSaveError('');
+    setSaving(true);
     const payload = {
       date: form.date,
       ward_name: form.ward_name,
@@ -217,11 +223,18 @@ export default function LogAShift({ open = true, onClose = () => {}, onSaved = (
       behavioural_patients: form.behavioural_patients,
     };
 
-    const result = isEditing ? await updateShift(payload) : await createShift(payload);
-    if (result) {
+    try {
+      const result = isEditing ? await updateShift(payload) : await createShift(payload);
+      if (!result) {
+        throw new Error('The server returned an empty response.');
+      }
       onSaved();
       resetAndClose();
-      return;
+    } catch (error) {
+      console.error('Failed to save shift:', error);
+      setSaveError('Unable to save this shift. Please try again.');
+    } finally {
+      setSaving(false);
     }
   };
 
@@ -249,6 +262,7 @@ export default function LogAShift({ open = true, onClose = () => {}, onSaved = (
 
       <DialogContent>
         <Box className="log-shift-form">
+          {saveError && <Alert severity="error">{saveError}</Alert>}
           <TextField
             label="Date"
             type="date"
@@ -375,8 +389,8 @@ export default function LogAShift({ open = true, onClose = () => {}, onSaved = (
           <Button onClick={resetAndClose} color="inherit">
             Cancel
           </Button>
-          <Button variant="contained" onClick={handleSubmit}>
-            {isEditing ? 'Update Shift' : 'Save Shift'}
+          <Button variant="contained" onClick={handleSubmit} disabled={saving}>
+            {saving ? 'Saving...' : isEditing ? 'Update Shift' : 'Save Shift'}
           </Button>
         </div>
       </DialogActions>

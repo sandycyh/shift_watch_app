@@ -38,7 +38,9 @@ const shiftDetailFields = [
 
 const displayValue = (key, value) => {
   if (value === null || value === undefined || value === '') return '--';
-  if (key === 'TL' || key === 'TL_pt_load') return Number(value) === 1 ? 'Yes' : 'No';
+  if (key === 'TL' || key === 'TL_pt_load') {
+    return ['yes', '1', 'true'].includes(String(value).toLowerCase()) ? 'Yes' : 'No';
+  }
   if (key === 'NUM_present') return String(value).toUpperCase() === 'YES' ? 'Yes' : 'No';
   return String(value);
 };

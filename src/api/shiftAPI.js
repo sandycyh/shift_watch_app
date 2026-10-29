@@ -25,26 +25,21 @@ const API = resolveApiBase();
 
 
 export async function createShift(payload) {
-    try {
-        const response = await fetch(`${API}/shift`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(payload),
-        });
+    const response = await fetch(`${API}/shift`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload),
+    });
 
-        if (!response.ok) {
-            const text = await response.text().catch(() => '');
-            throw new Error(`HTTP ${response.status}${text ? `: ${text}` : ''}`);
-        }
-
-        const text = await response.text();
-        return text ? JSON.parse(text) : null;
-    } catch (err) {
-        console.error('Failed to create shift:', err);
-        return null;
+    if (!response.ok) {
+        const text = await response.text().catch(() => '');
+        throw new Error(`HTTP ${response.status}${text ? `: ${text}` : ''}`);
     }
+
+    const text = await response.text();
+    return text ? JSON.parse(text) : null;
 }
 
 export async function getWeeklyReportData(weekValue) {
@@ -94,27 +89,22 @@ export default async function getShift(date, shift) {
 }
 
 export async function updateShift(payload) {
-    try {
-        const response = await fetch(
-            `${API}/shift/${encodeURIComponent(payload.date)}/${encodeURIComponent(payload.shift_type)}`,
-            {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(payload),
+    const response = await fetch(
+        `${API}/shift/${encodeURIComponent(payload.date)}/${encodeURIComponent(payload.shift_type)}`,
+        {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
             },
-        );
+            body: JSON.stringify(payload),
+        },
+    );
 
-        if (!response.ok) {
-            const text = await response.text().catch(() => '');
-            throw new Error(`HTTP ${response.status}${text ? `: ${text}` : ''}`);
-        }
-
-        const text = await response.text();
-        return text ? JSON.parse(text) : null;
-    } catch (err) {
-        console.error('Failed to update shift:', err);
-        return null;
+    if (!response.ok) {
+        const text = await response.text().catch(() => '');
+        throw new Error(`HTTP ${response.status}${text ? `: ${text}` : ''}`);
     }
+
+    const text = await response.text();
+    return text ? JSON.parse(text) : null;
 }

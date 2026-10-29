@@ -12,7 +12,6 @@ export default function Dashboard() {
 
     const handleShiftSaved = () => {
         setCalendarRefreshKey((prev) => prev + 1);
-        setIsLogOpen(false);
     };
 
     return (
@@ -48,7 +47,11 @@ export default function Dashboard() {
                 </div>
             </section>
 
-            <LogAShift open={isLogOpen} onClose={handleShiftSaved} />
+            <LogAShift
+                open={isLogOpen}
+                onClose={() => setIsLogOpen(false)}
+                onSaved={handleShiftSaved}
+            />
             <Spacer size="50px" />
             <Footer />
         </>
