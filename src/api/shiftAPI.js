@@ -35,6 +35,19 @@ export async function createShift(payload) {
 
     if (!response.ok) {
         const text = await response.text().catch(() => '');
+        if (response.status === 409) {
+            let message = 'A shift already exists for this date and shift type. Please edit the existing shift instead.';
+            if (text) {
+                try {
+                    message = JSON.parse(text).message || message;
+                } catch {
+                    // Keep the user-facing conflict message if the response isn't valid JSON.
+                }
+            }
+            const error = new Error(message);
+            error.status = response.status;
+            throw error;
+        }
         throw new Error(`HTTP ${response.status}${text ? `: ${text}` : ''}`);
     }
 

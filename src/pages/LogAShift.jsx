@@ -232,7 +232,7 @@ export default function LogAShift({ open = true, onClose = () => {}, onSaved = (
       resetAndClose();
     } catch (error) {
       console.error('Failed to save shift:', error);
-      setSaveError('Unable to save this shift. Please try again.');
+      setSaveError(error.status === 409 ? error.message : 'Unable to save this shift. Please try again.');
     } finally {
       setSaving(false);
     }
